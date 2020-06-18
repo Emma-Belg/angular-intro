@@ -1,7 +1,11 @@
+<!-- This div allows the stars to be cropped based on a defined width 
+The stuff in this div in the [] is property binding-->
 <div class="crop"
      [style.width.px]="starWidth"
-     [title]="rating">
+     [title]="rating"
+     (click)="onClick()">
   <div style="width: 75px">
+    <!-- these are font Awesome icons -->
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>

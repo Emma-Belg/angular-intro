@@ -39,7 +39,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor='let product of products'>
+            <tr *ngFor='let product of filteredProducts'>
                 <td>
                     <img *ngIf='showImage'
                         [src] = 'product.imageUrl'
@@ -49,10 +49,14 @@
                     >
                 </td>
                 <td>{{product.productName}}</td>
-                <td>{{product.productCode | lowercase}}</td>
+                <td>{{product.productCode | lowercase | convertToSpaces: '-'}}</td>
                 <td>{{product.productreleaseDate}}</td>
                 <td>{{product.price | currency:'EUR': 'symbol': '1.2-2'}}</td>
-                <td>{{product.starRating}}</td>
+                <td>
+                    <!-- the ($event) passes along any information associated with the generated event
+                    you must always type $event  -->
+                    <pm-star [rating] = 'product.starRating'
+                    (ratingClicked) = 'onRatingClicked($event)'></pm-star></td>
             </tr>
 
           </tbody>
