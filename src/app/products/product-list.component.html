@@ -6,12 +6,14 @@
       <div class='row'>
         <div class='col-md-2'>Filter by:</div>
         <div class='col-md-4'>
-          <input type='text'/>
+          <input type='text'
+                [(ngModel)] = 'listFilter'
+          />
         </div>
       </div>
       <div class='row'>
         <div class='col-md-6'>
-          <h4>Filtered by: </h4>
+          <h4>Filtered by: {{listFilter}} </h4>
         </div>
       </div>
       <div class='table-responsive'>
@@ -23,7 +25,10 @@
                 <button class='btn btn-primary'
                     (click) = 'toggleImage()'
                 >
-                  Show Image
+                <!-- this if statement assumes if it is true then the string 
+                will show 'Hide' and vice versa (dont forget that the showImage var
+                has been set in the related ts component-->
+                  {{showImage ? 'Hide' : 'Show'}} Image
                 </button>
               </th>
               <th>Product</th>
@@ -44,9 +49,9 @@
                     >
                 </td>
                 <td>{{product.productName}}</td>
-                <td>{{product.productCode}}</td>
+                <td>{{product.productCode | lowercase}}</td>
                 <td>{{product.productreleaseDate}}</td>
-                <td>{{product.price}}</td>
+                <td>{{product.price | currency:'EUR': 'symbol': '1.2-2'}}</td>
                 <td>{{product.starRating}}</td>
             </tr>
 
