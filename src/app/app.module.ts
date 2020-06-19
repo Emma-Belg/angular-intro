@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './products/product-list.component';
 import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 import { StarComponent } from './shared/star.component';
+import {HttpClientModule} from '@angular/common/http';
+import { ProductDetailComponent } from './products/product-detail.component'
 
 @NgModule({
   //this is for the directives, components and pipes we write ourselves
@@ -12,12 +14,14 @@ import { StarComponent } from './shared/star.component';
     AppComponent,
     ProductListComponent,
     ConvertToSpacesPipe,
-    StarComponent
+    StarComponent,
+    ProductDetailComponent
   ],
   //this is for stuff(directives, components and pipes) from angular itself or external sources
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

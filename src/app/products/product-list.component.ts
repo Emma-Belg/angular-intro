@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
+//import { threadId } from 'worker_threads';
 
 @Component({
     selector: 'pm-products',
@@ -12,6 +13,7 @@ export class ProductListComponent implements OnInit {
     imageWidth: number = 50;
     imageMargin: number = 2;
     showImage:boolean = false;
+    errorMessage: string;
     _listFilter: string;
     get listFilter():string{
         return this._listFilter;
@@ -28,32 +30,9 @@ export class ProductListComponent implements OnInit {
     //note: we cannot simply filter the original products array
     //if we did this would lose the orignial data and
     //would then have to get it again from the data source
-    products: IProduct[] = [
-        {
-            "productId": 1,
-            "productName": "Leaf Rake",
-            "productCode": "GDN-0011",
-            "releaseDate": "March 19, 2019",
-            "description": "Leaf rake with 48-inch wooden handle.",
-            "price": 19.95,
-            "starRating": 3.2,
-            "imageUrl": "assets/images/leaf_rake.png"
-          },
-          {
-            "productId": 2,
-            "productName": "Garden Cart",
-            "productCode": "GDN-0023",
-            "releaseDate": "March 18, 2019",
-            "description": "15 gallon capacity rolling garden cart",
-            "price": 32.99,
-            "starRating": 4.2,
-            "imageUrl": "assets/images/garden_cart.png"
-          },
-    ];
+    products: IProduct[] = [];
 
     constructor(private productService: ProductService){
-        this.filteredProducts = this.products;
-        this.listFilter = 'cart';
     }
 
     //note that TS does not require the word function for functions
@@ -62,8 +41,18 @@ export class ProductListComponent implements OnInit {
         this.showImage = !this.showImage;
     }
 
+    //this lifecycle hook is a good place to retrieve data
     ngOnInit():void{
-        console.log('in OnInit');
+        //b/c we changed the Product service to return an Observable, we cannot assign the result to our prduct property directly
+        //this.products = this.productService.getProducts();
+        //we changed the above line to this
+        this.productService.getProducts().subscribe({
+            next: products => {
+                this.products = products;
+                this.filteredProducts = this.products;
+            },
+            error: err => this.errorMessage = err
+        });
     }
 
     performFilter (filterBy: string): IProduct[] {
